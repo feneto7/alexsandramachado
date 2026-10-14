@@ -1,0 +1,15 @@
+# Dependências e saída gerada
+node_modules/
+dist/
+
+# Capturas, backups e ferramentas específicas desta máquina
+.local/
+
+# Configurações e arquivos privados
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+Desktop.ini
