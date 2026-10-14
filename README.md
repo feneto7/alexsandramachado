@@ -24,6 +24,7 @@ A montagem acompanha a rolagem nos dois sentidos, no desktop e no celular. O mod
 │   └── build.mjs               # Gera a versão em um único HTML
 ├── docs/PENDENCIAS.md          # Dados e arquivos a confirmar antes de publicar
 ├── package.json
+├── vercel.json                # Build e diretório de publicação na Vercel
 ├── .editorconfig
 ├── .gitattributes
 ├── .gitignore
@@ -34,7 +35,7 @@ As pastas `dist/` e `.local/` são ignoradas pelo Git. `dist/` contém a exporta
 
 ## Visualizar localmente
 
-Abra `index.html` no navegador, mantendo a pasta `assets/` ao lado dele. Para usar um servidor local, é necessário Node.js 20 ou superior:
+Abra `index.html` no navegador, mantendo a pasta `assets/` ao lado dele. Para usar um servidor local, utilize Node.js 24.x, a mesma versão principal configurada para o deploy:
 
 ```sh
 npm run dev
@@ -74,6 +75,21 @@ Não altere os IDs e as classes usados pelos scripts sem atualizar suas referên
 Envie os arquivos de origem listados acima. O `.gitignore` já exclui saídas geradas, histórico local e arquivos privados. Não há credenciais ou caminhos absolutos desta máquina no código de distribuição.
 
 O site é estático: para hospedá-lo, publique `index.html` e a pasta `assets/`, preservando seus caminhos relativos. Também é possível publicar apenas o `dist/index.html` gerado. Não há backend nem configuração de banco de dados.
+
+### Vercel
+
+Importe o repositório mantendo a raiz do projeto na pasta que contém `package.json` e `vercel.json`. A configuração versionada define:
+
+- **Framework Preset:** Other (`framework: null`).
+- **Build Command:** `npm run build`.
+- **Output Directory:** `dist`.
+- **Node.js:** 24.x, definido em `package.json`.
+
+O build gera `dist/index.html` durante o deploy; não é necessário enviar a pasta `dist/` ao Git. A propriedade `outputDirectory` de `vercel.json` substitui o diretório definido no painel, evitando o erro de pasta `public` ausente. Consulte a [documentação da configuração da Vercel](https://vercel.com/docs/project-configuration/vercel-json#outputdirectory).
+
+Se houver um deploy anterior com erro, execute um novo deploy a partir do commit que contém `vercel.json`. Com a integração Git ativa, o push na branch de produção dispara um novo deploy.
+
+### GitHub Pages
 
 O arquivo `.nojekyll` está incluído para hospedagem estática pelo GitHub Pages. A criação do repositório, o envio dos commits e a ativação da hospedagem devem ser feitos na conta escolhida; este projeto não executa publicação automática.
 
